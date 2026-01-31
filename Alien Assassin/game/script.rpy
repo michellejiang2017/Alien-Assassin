@@ -22,7 +22,7 @@ label start:
 
     show screen source_screen()
 
-    scene bg room
+    scene school corridor morning
 
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
@@ -36,6 +36,18 @@ label start:
     s "You've created a new Ren'Py game."
 
     s "Once you add a story, pictures, and music, you can release it to the world!"
+
+    scene classroom
+
+    s "classroom"
+
+    scene football field
+
+    s "field"
+
+    scene room
+
+    s "room"
 
     # This ends the game.
 
