@@ -5,6 +5,12 @@
 
 define e = Character("Eileen")
 
+default points = 0
+
+screen source_screen():
+    frame:
+        align(1.0, 0.0)
+        text "Reputation Points: [points]"
 
 # The game starts here.
 
@@ -13,6 +19,8 @@ label start:
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.
+
+    show screen source_screen()
 
     scene bg room
 
