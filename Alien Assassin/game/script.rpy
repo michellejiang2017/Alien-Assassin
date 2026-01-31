@@ -10,7 +10,7 @@ default points = 50
 screen source_screen():
     frame:
         align(1.0, 0.0)
-        text "Your reputation: [points]%"
+        text "Reputation: [points]%"
 
 # The game starts here.
 
