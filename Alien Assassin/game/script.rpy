@@ -3,14 +3,14 @@
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
 
-define e = Character("Eileen")
+define s = Character("Sobechi")
 
-default points = 0
+default points = 50
 
 screen source_screen():
     frame:
         align(1.0, 0.0)
-        text "Reputation Points: [points]"
+        text "Your reputation: [points]%"
 
 # The game starts here.
 
@@ -33,9 +33,9 @@ label start:
 
     # These display lines of dialogue.
 
-    e "You've created a new Ren'Py game."
+    s "You've created a new Ren'Py game."
 
-    e "Once you add a story, pictures, and music, you can release it to the world!"
+    s "Once you add a story, pictures, and music, you can release it to the world!"
 
     # This ends the game.
 
