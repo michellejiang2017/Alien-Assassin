@@ -27,7 +27,24 @@ default michelle = False
 
 default sobechi = False
 
+default fentanyl_flag = False
+
+default car_flag = False
+
+default gun_flag = False
+
 default murder = False
+
+default fent_murder = False
+
+default car_murder = False
+
+default gun_murder = False
+
+init:
+    $ center = Position(xpos=0.5, ypos=0.8)
+    $ left = Position(xpos=0.25, ypos=0.8)
+    $ right = Position(xpos=0.75, ypos=0.8)
 
 screen source_screen():
     frame:
@@ -51,8 +68,6 @@ label start:
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
 
-    show sobechi happy
-
     # These display lines of dialogue.
 
     n "You are an assassin who has taken over the body of an alien on this planet. This information will only appear once so remember it well."
@@ -69,16 +84,16 @@ label start:
     scene school corridor morning
     with fade
 
-    show sobechi normal
+    show sobechi normal at center
     s "Hey, how are you feeling about the first day of classes?"
-    show sobechi happy
+    show sobechi happy at center
     "Sobechi wags her tongue in greeting."
     p "I'm excited for my first class! It's called Money and Banking, it sounds like it's going to be a lot of fun!"
     s "Wow, look at the time, we should get going to class."
 
     scene classroom 
     with fade
-    show anna happy
+    show anna happy at center
     a "Hey, I don't think I've seen you around before, nice to meet you!"
     p "Yeah, nice to meet you!"
 
@@ -88,7 +103,7 @@ label start:
         "Anna wags her tongue at you."
 
         "Make a face":
-            show anna normal
+            show anna normal at center
             a "Oh..."
             p "Did I do something wrong?"
             a "No…"
@@ -99,21 +114,21 @@ label start:
             p "You're so pretty, we should study together for this class sometime!"
             a "I'd be down. Hey, aren't you friends with Sobechi? Let's all study together."
             p 'Yeah of course! Oh, why’d you choose this class?' 
-            show anna normal
+            show anna normal at center
             a 'Oh my dad is in finance so he wants me to learn about loans. Ugh.'
             p 'Do you not like your dad?'
             a 'Yeah he wants me to take over the family business.'
             p 'Oh wow. That seems stressful.'
             a 'Yeah {b}he’s taking 10 sleeping pills every night{b}.'
             p 'Oh no, is he okay?'
-            show anna happy
+            show anna happy at center
             a 'Yeah-–actually you should meet him! Let’s study together at my house! Bring Sobechi!'
 
             jump choice1_1
             
 
         "Go for a handshake": 
-            show anna normal
+            show anna normal at center
             a "Woah, I don't know you like that."
             p "My bad, it was a reflex--I mean…"
             a "So you shake hands with everyone?"
@@ -142,11 +157,11 @@ label start:
     label option1: 
         scene school corridor morning
         with fade
-        show sobechi happy
+        show sobechi happy at center
         s 'Good news! I got a text from Anna and she invited us to study at her house since we share classes together!'
         p 'Oh that’s great!'
         n 'You can take the opportunity to get closer to her father.'
-        show sobechi normal
+        show sobechi normal at center
         s 'Oh but I’d be careful with her dad-–I heard {b}he takes 10 sleeping pills every night{b} because he’s so stressed.'
         jump option2
 
@@ -155,7 +170,7 @@ label start:
         scene football field
         with fade
         "You run into Emily, the local drug dealer, by the football fields."
-        show emily
+        show emily at center
         e "Hey, do you want to fly?"
         p "Huh? Fly?"
         e "Yeah, fly. Like an angel."
@@ -200,19 +215,20 @@ label start:
         scene living room
         with fade
         "You arrive at the Pretzel house. You knock on the door. It swings open to reveal…"
-        show loan
+        show loan at right
+        show sobechi normal at left
         l "Oh. You must be Anna’s acquaintances. She’s been expecting you. Come in."
         hide loan
-        show anna happy
+        show anna happy at right
         a "Thank you guys for coming! Ignore my father, he’s such a grump. Let’s study upstairs in my room!"
         hide anna
-        show loan
+        show loan at right
         l "I’ll be going to bed soon. Try not to be loud, I’ll need my rest if I’m going to squeeze every last cent out of those filthy humans at work."
         hide loan
-        show anna sad
+        show anna sad at right
         a "Dad! …I’m sorry about him. Let’s… let’s just go to my room now. *Sigh*"
         p "Could I use the bathroom first?"
-        show anna normal
+        show anna normal at right
         a "Sure, it’s the room at the end of the hallway on the left. It’s right across from my dad’s room."
     if fentanyl_flag == True: 
     # Planting the fent
@@ -244,6 +260,7 @@ label start:
         "You slip into the loan shark’s room and find a pill bottle resting on a nightstand. You switch out the pills in the bottle for the fentanyl you got from Emily. You slip out of the bedroom before the loan shark can notice you, then join Anna and Sobechi."
 
         $ murder = True
+        $ fent_murder = True
 
         scene living room
         with fade
@@ -258,8 +275,8 @@ label start:
         scene room
         with fade
 
-        show anna normal
-        show sobechi normal
+        show anna normal at left
+        show sobechi normal at right
 
         "Empty snack wrappers are scattered everywhere. Anna licks salt from her fingers."
         a "Ugh, I’m still hungry." 
@@ -268,21 +285,21 @@ label start:
         menu:
             "They both glance at you, waiting."
             "Yeah, you really have to lick the plate clean":
-                show sobechi happy
-                show anna happy
+                show sobechi happy at right
+                show anna happy at left
                 a "Exactly." 
                 s "See? They get it." 
                 n "They seem pleased. Reputation increases by 10%%."
                 $ points += 10
             "Guess you just eat more next time":
-                show sobechi normal
-                show anna normal
+                show sobechi normal at right
+                show anna normal at left
                 a "…That’s not what I meant." 
                 n "Reputation remains the same."
                 $ points += 0 
             "I don’t really think about it":
-                show sobechi sad
-                show anna sad
+                show sobechi sad at right
+                show anna sad at left
                 n "That answer feels wrong." 
                 n "They seem displeased. Reputation decreases by 10%%."
                 $ points -= 10
@@ -295,24 +312,24 @@ label start:
         menu: 
             s "Are you going to save your food for later?"
             "Nah, leaving food is rude":
-                show sobechi happy
-                show anna happy
+                show sobechi happy at right
+                show anna happy at left
                 a "You're right."
                 s "Glad you said that."
                 n "They seem pleased. Reputation increases by 10%%."
                 $ points += 10
 
             "I’ll throw it out":
-                show sobechi sad
-                show anna sad
+                show sobechi sad at right
+                show anna sad at left
                 a "Wow."
                 s "That’s… bad."
                 n "They seem displeased. Reputation decreases by 10%%."
                 $ points -= 10
 
             "I’ll box it up and forget about it":
-                show sobechi normal
-                show anna normal
+                show sobechi normal at right
+                show anna normal at left
                 s "That still counts as waste."
                 n "Reputation remains the same."
                 $ points += 0 
@@ -322,20 +339,20 @@ label start:
         menu:
             a "He hates waste." 
             "Yeah, people like that care more about control than food":
-                show sobechi happy
-                show anna happy
+                show sobechi happy at right
+                show anna happy at left
                 a "…You noticed that too." 
                 n "They seem pleased. Reputation increases by 10%%."
                 $ points += 10
             "He just sounds strict":
-                show sobechi sad
-                show anna sad
+                show sobechi sad at right
+                show anna sad at left
                 a "You could say that." 
                 n "They seem displeased. Reputation decreases by 10%%."
                 $ points -= 10
             "I don’t know him":
-                show sobechi normal
-                show anna normal
+                show sobechi normal at right
+                show anna normal at left
                 n "They both look unconvinced." 
                 n "Reputation remains the same."
                 $ points -= 0
@@ -353,9 +370,75 @@ label start:
 
         if murder == True and points >= 90: 
             jump good_end
+        elif murder == True and points <90: 
+            jump pre_police
+        else: 
+            jump option3
+
+    label option3: 
+        scene hallway
+        show sobechi happy at left
+        if anna: 
+            show anna happy at right 
+            "When you see Anna the next day at school, she’s unusually happy to see you two."
+        else: 
+            show anna sad at right 
+            "When you see Anna the next day at school, she seems wary of seeing you two."
+        s "Hey, there’s a club fair happening! Let’s go!"
+
+        scene classroom
+        show sobechi happy at left 
+        show michelle normal at right
+        s "We’re here! I’ve been meaning to check out the autophile club!"
+        menu: 
+            m "Hi… I’m Michelle. I’m here with the autophile club. We… like cars…obviously. We 'fix' them too… Would you like to hear more?"
+            "Nah...that sounds boring.":
+                show michelle sad at right
+                m "Oh...okay."
+                $ points -= 10
+                n "Your reputation decreases by 10%%."
+                jump choice4_01
+            "I’d love to!":
+                show michelle happy at right
+                m "*Sigh* Okay… well… right now we mainly help students get into their cars when they accidentally lock themselves out. We’re trying to raise money for a new monkeywrench."
+                s "So you guys {b}break into their cars?{b}"
+                m "I mean…if they pay us enough…yeah."
+                $ points += 10
+                n "Your reputation increases by 10%%."
+                jump choice4_1
+
+    label choice4_01:
+        jump credits
+    label choice4_1: 
+        jump credits
+
+    label pre_police: 
+        scene hallway
+        show anna sad at right
+        show sobechi sad at left
+
+        a "Hey guys. Not to bring the mood down… but did you hear the news?"
+        p "What news?"
+        a "My dad is dead. Apparently the sleeping pills he’s been taking all this time were Fentanyl and yesterday he overestimated his tolerance."
+        S "Oh my gosh! You must be devastated."
+        A "Not really. I’m pretty happy actually."
+        N "She turns to face you."
+        A "It’s just that the police want to take you in for questioning. They’re behind you right now. Sorry. They asked if I had been around anyone odd lately and I had to tell the truth."
+        N "You feel strong arms grab you. A hard force hits the back of your head. Everything goes black."
+
+        jump police
 
     label fent_success: 
         a "Apparently the sleeping pills he’s been taking all this time were Fentanyl and yesterday he overestimated his tolerance."
+        jump good_end_cont
+    
+    label car_success: 
+        a "Apparently he got hit by a car in a hit-and-run."
+        jump good_end_cont
+
+    label gun_success: 
+        a "Apparently he committed suicide using his own gun."
+        jump good_end_cont
 
     label police: 
         "You wake up in a police station, bound to a chair that’s facing the wall. A gruff voice behind you begins to speak."
@@ -374,10 +457,17 @@ label start:
 
     label good_end: 
         scene school corridor morning
-        show anna happy
-        show sobechi happy
+        show anna happy at right
+        show sobechi happy at left
         a "Hey guys! Did you hear the news? My dad is dead!"
-        jump fent_success
+        if fent_murder: 
+            jump fent_success
+        elif car_murder: 
+            jump car_success
+        elif gun_murder: 
+            jump gun_success
+
+    label good_end_cont:
         s "And you’re happy about this?"
         a "Of course! My Dad was a menace, both to me and to humans. The police came over earlier to investigate, but when I told them how weird he acts they knew it was an accidental death."
         p "Wow. Well, I’m happy for you."
@@ -395,7 +485,7 @@ label start:
 
     label bad_end: 
         scene black
-        n "Unfortunately, you couldn’t accomplish your mission without being undiscovered. Disturbed by recent strange events, Anna decides she and Sobechi may be better off as friends for now. Sobechi is distraught. You’re fired from your job. Condolences!"
+        n "Unfortunately, you couldn’t accomplish your mission without being discovered. Disturbed by recent strange events, Anna decides she and Sobechi may be better off as friends for now. Sobechi is distraught. You’re fired from your job. Condolences!"
         jump credits
 
     label credits: 
