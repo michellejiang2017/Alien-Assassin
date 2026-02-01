@@ -419,6 +419,30 @@ label start:
                 n "You miss your second chance to assassinate the target."
                 jump resolve_ending
 
+    label gun_attempt:
+        scene college campus
+        s "I have a favor to ask of you, but you have to promise not to tell anyone."
+        p "I promise I won’t tell a soul, what is it?"
+        s "I know that guns aren’t allowed on this campus, but the thing is…*reveals firearm* I think people are getting suspicious and I don’t want it to be in my room in case they do a surprise inspection."
+        p "Wow, I was expecting you to ask me to look over your homework or something."
+        s "As my best friend, I know I can trust you. Will you hold onto the gun for me?"
+        menu: 
+            "Of course, I’ll make sure it isn’t found.":
+                s "I knew you would have my back."
+	            p "Always."
+                scene front door
+                
+                show loan
+
+                murder_method = "gun"
+	            jump choicegun_1
+            "I’m not sure that’s the best idea…":
+                s "I guess our friendship isn’t as strong as I thought."
+	            p "That’s not true."
+	            s "That’s what it seems like right now."
+	            n "You lost trust with Sobechi and didn’t take the opportunity to obtain a weapon. Reputation decreases by 10%%."
+                n "This was your last opportunity to assassinate the evil loan shark Andrew Pretzel and complete your mission. You have failed."
+	            jump bad_end
 
     ### SWITCHBOARD ###
     label resolve_ending:
