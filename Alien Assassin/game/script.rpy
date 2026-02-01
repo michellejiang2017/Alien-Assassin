@@ -381,9 +381,10 @@ label start:
         s "Here, I'll add it to your phone."
         jump choice4_1
 
+    ### CAR ATTEMPT ###
     label choice4_1: 
         
-        jump credits
+        jump resolve_ending
 
     ### SWITCHBOARD ###
     label resolve_ending:
