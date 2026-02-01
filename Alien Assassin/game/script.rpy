@@ -429,20 +429,20 @@ label start:
         menu: 
             "Of course, I’ll make sure it isn’t found.":
                 s "I knew you would have my back."
-	            p "Always."
+                p "Always."
                 scene front door
                 
                 show loan
 
-                murder_method = "gun"
-	            jump choicegun_1
+                $ murder_method = "gun"  
+                jump choicegun_1
             "I’m not sure that’s the best idea…":
                 s "I guess our friendship isn’t as strong as I thought."
-	            p "That’s not true."
-	            s "That’s what it seems like right now."
-	            n "You lost trust with Sobechi and didn’t take the opportunity to obtain a weapon. Reputation decreases by 10%%."
+                p "That’s not true."
+                s "That’s what it seems like right now."
+                n "You lost trust with Sobechi and didn’t take the opportunity to obtain a weapon. Reputation decreases by 10%%."
                 n "This was your last opportunity to assassinate the evil loan shark Andrew Pretzel and complete your mission. You have failed."
-	            jump bad_end
+                jump resolve_ending
 
     ### SWITCHBOARD ###
     label resolve_ending:
