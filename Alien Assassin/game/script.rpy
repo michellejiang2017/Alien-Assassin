@@ -33,13 +33,7 @@ default car_flag = False
 
 default gun_flag = False
 
-default murder = False
-
-default fent_murder = False
-
-default car_murder = False
-
-default gun_murder = False
+default murder_method = None # can be: "fent", "car", "gun", None
 
 init:
     $ center = Position(xpos=0.5, ypos=0.8)
@@ -61,7 +55,7 @@ label start:
 
     show screen source_screen()
 
-    scene school corridor morning 
+    scene hallway 
     with dissolve
 
     # This shows a character sprite. A placeholder is used, but you can
@@ -81,7 +75,7 @@ label start:
     n "Your goal is to get away with murder. In order to do this, you must befriend the people in the universe and blend in with their culture. If you do this, you will gain reputation (in the top right corner)."
 
     # DAY 1
-    scene school corridor morning
+    scene hallway
     with fade
 
     show sobechi normal at center
@@ -107,7 +101,9 @@ label start:
             a "Oh..."
             p "Did I do something wrong?"
             a "No…"
-            jump choice1_0 # the number of points gained
+            $ points += 0
+            n "Your reputation remains the same."
+            jump option1 # Sobechi
             
 
         "Wag back": 
@@ -123,8 +119,10 @@ label start:
             p 'Oh no, is he okay?'
             show anna happy at center
             a 'Yeah-–actually you should meet him! Let’s study together at my house! Bring Sobechi!'
-
-            jump choice1_1
+            $ points += 10
+            $ anna = True
+            n "They seem pleased. Reputation increases by 10%%."
+            jump option2 # meet Emily
             
 
         "Go for a handshake": 
@@ -135,27 +133,13 @@ label start:
             p "No, that was a slip of the tongue, I don't do that."
             a "Oh. Well, class is starting, we should probably be quiet."
             p "Okay…"
-            jump choice1_01 # 01 meaning -1
-
-    label choice1_0: 
-        $ points += 0
-        n "Your reputation remains the same."
-        jump option1 # Sobechi
-    
-    label choice1_1: 
-        $ points += 10
-        $ anna = True
-        n "They seem pleased. Reputation increases by 10%%."
-        jump option2 # meet Emily
-
-    label choice1_01: 
-        $ points -= 10
-        $ anna = False
-        n "They are displeased. Reputation decreases by 10%%."
-        jump option1 # Sobechi
+            $ points -= 10
+            $ anna = False
+            n "They are displeased. Reputation decreases by 10%%."
+            jump option1 # Sobechi
 
     label option1: 
-        scene school corridor morning
+        scene hallway
         with fade
         show sobechi happy at center
         s 'Good news! I got a text from Anna and she invited us to study at her house since we share classes together!'
@@ -181,34 +165,23 @@ label start:
                 e "Angel dust? That’ll cost a pretty penny."
                 p "I’ve got money."
                 e "Okay moneybags, here’s your angel dust."
-
-                jump choice2_1
-
+                $ fentanyl_flag = True
+                n "You gained fentanyl."
+                jump choice2_done
             "Yes, give me fentanyl.":
                 e "Fentanyl? I don’t know what you’re talking about."
                 p "Like the white stuff? Don’t you have that?"
                 e "Now you’re just giving me attitude. I’m only giving you this because you’re a regular."
-
-                jump choice2_2
+                $ fentanyl_flag = True
+                n "You gained fentanyl."
+                jump choice2_done
 
             "No, I don't want anything.":
                 e "Okay. Goodbye."
-                jump choice2_3
-
-    label choice2_1:
-        $ fentanyl_flag = True
-        n "You gained fentanyl."
-        jump choice2_done
-    
-    label choice2_2:
-        $ fentanyl_flag = True
-        n "You gained fentanyl."
-        jump choice2_done
-    
-    label choice2_3:
-        $ fentanyl_flag = False
-        n "You don't buy anything from the drug dealer."
-        jump choice2_done
+                $ fentanyl_flag = False
+                n "You don't buy anything from the drug dealer."
+                jump choice2_done
+        
 
     #DAY 2
     label choice2_done:
@@ -239,7 +212,19 @@ label start:
                 jump choice3_1
 
             "Go to the loan shark's room":
-                jump choice3_2
+                scene room night
+                with fade
+
+                "You slip into the loan shark’s room and find a pill bottle resting on a nightstand. You switch out the pills in the bottle for the fentanyl you got from Emily. You slip out of the bedroom before the loan shark can notice you, then join Anna and Sobechi."
+
+                $ murder_method = fent
+
+                scene living room
+                with fade
+
+                "As you head upstairs, you feel a little pee dribble down your leg and ignore it. Your bladder is screaming, but your worries dissipate when you hear sounds from the loan shark’s bedroom: a yawn and the shake of the pill bottle."
+                
+                jump choice3_done
     else: 
         jump choice3_1
 
@@ -252,22 +237,7 @@ label start:
         n "You missed your chance to assassinate the loan shark."
 
         jump choice3_done
-
-    label choice3_2: 
-        scene room night
-        with fade
-
-        "You slip into the loan shark’s room and find a pill bottle resting on a nightstand. You switch out the pills in the bottle for the fentanyl you got from Emily. You slip out of the bedroom before the loan shark can notice you, then join Anna and Sobechi."
-
-        $ murder = True
-        $ fent_murder = True
-
-        scene living room
-        with fade
-
-        "As you head upstairs, you feel a little pee dribble down your leg and ignore it. Your bladder is screaming, but your worries dissipate when you hear sounds from the loan shark’s bedroom: a yawn and the shake of the pill bottle."
         
-        jump choice3_done
 
     # SLEEPOVER
 
@@ -368,12 +338,18 @@ label start:
 
         "You and Sobechi have a great time at Anna’s."
 
-        if murder == True and points >= 90: 
+        jump resolve_ending
+
+    label resolve_ending:
+        if murder_method and points >= 90:
             jump good_end
-        elif murder == True and points <90: 
-            jump pre_police
-        else: 
-            jump option3
+
+        elif murder_method and points < 90:
+            jump police
+
+        else:
+            jump bad_end
+
 
     label option3: 
         scene hallway
@@ -420,27 +396,17 @@ label start:
         a "Hey guys. Not to bring the mood down… but did you hear the news?"
         p "What news?"
         a "My dad is dead. Apparently the sleeping pills he’s been taking all this time were Fentanyl and yesterday he overestimated his tolerance."
-        S "Oh my gosh! You must be devastated."
-        A "Not really. I’m pretty happy actually."
-        N "She turns to face you."
-        A "It’s just that the police want to take you in for questioning. They’re behind you right now. Sorry. They asked if I had been around anyone odd lately and I had to tell the truth."
-        N "You feel strong arms grab you. A hard force hits the back of your head. Everything goes black."
-
+        s "Oh my gosh! You must be devastated."
+        a "Not really. I’m pretty happy actually."
+        "She turns to face you."
+        a "It’s just that the police want to take you in for questioning. They’re behind you right now. Sorry. They asked if I had been around anyone odd lately and I had to tell the truth."
+        "You feel strong arms grab you. A hard force hits the back of your head. Everything goes black."
+        hide sobechi sad
+        hide anna sad
         jump police
 
-    label fent_success: 
-        a "Apparently the sleeping pills he’s been taking all this time were Fentanyl and yesterday he overestimated his tolerance."
-        jump good_end_cont
-    
-    label car_success: 
-        a "Apparently he got hit by a car in a hit-and-run."
-        jump good_end_cont
-
-    label gun_success: 
-        a "Apparently he committed suicide using his own gun."
-        jump good_end_cont
-
     label police: 
+        scene black 
         "You wake up in a police station, bound to a chair that’s facing the wall. A gruff voice behind you begins to speak."
         po "We’ve heard that you’ve been acting… strangely. The planet is currently under an advisory watch for humans that may be trying to infiltrate our society and assassinate our citizens."
         
@@ -455,19 +421,17 @@ label start:
                 jump good_end
 
 
-    label good_end: 
-        scene school corridor morning
+    label pre_good_end: 
+        scene hallway
         show anna happy at right
         show sobechi happy at left
         a "Hey guys! Did you hear the news? My dad is dead!"
-        if fent_murder: 
-            jump fent_success
-        elif car_murder: 
-            jump car_success
-        elif gun_murder: 
-            jump gun_success
-
-    label good_end_cont:
+        if murder_method==fent: 
+            a "Apparently the sleeping pills he’s been taking all this time were Fentanyl and yesterday he overestimated his tolerance."
+        elif murder_method==car: 
+            a "Apparently he got hit by a car in a hit-and-run."
+        elif murder_method==gun: 
+            a "Apparently he committed suicide using his own gun."
         s "And you’re happy about this?"
         a "Of course! My Dad was a menace, both to me and to humans. The police came over earlier to investigate, but when I told them how weird he acts they knew it was an accidental death."
         p "Wow. Well, I’m happy for you."
@@ -477,8 +441,11 @@ label start:
         n "Anna turns to Sobechi."
         a "Will you marry me now that my homophobic father is out of the way?"
         s "Anna… of course I will!"
-        scene chapel
 
+    label good_end:
+        scene chapel
+        show sobechi happy at left
+        show anna happy at right
         n "Thanks to your efforts, society is free from the exploitative loan shark, and Sobechi and Anna get married. You’re the person of honor at their wedding, and get a promotion at work. Congratulations!"
         "{b} Good Ending. {b}"
         jump credits
