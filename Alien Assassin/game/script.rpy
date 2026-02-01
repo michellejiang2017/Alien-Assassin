@@ -359,6 +359,7 @@ label start:
                 m "Oh...okay."
                 $ points -= 10
                 n "Your reputation decreases by 10%%."
+                hide michelle sad
                 jump choice4_01
             "I’d love to!":
                 show michelle happy at right
@@ -373,6 +374,8 @@ label start:
 
     ### SOBECHI FALLBACK ###
     label choice4_01:
+        scene hallway
+        show sobechi at center
         s "Hey! I got Michelle's number. She said she can fix people's cars!"
         p "Fix people's cars? What does that mean?"
         s "Oh like she helps people {b} break into people's cars if they get locked out of them {b}"
@@ -388,10 +391,34 @@ label start:
         menu: 
             "Call Michelle": 
                 m "Hi? What's up?"
-                p "Hi, I got locked "
+                p "Hi, I got locked out of my car. I'm in the parking lot right now."
+                m "Okay...I'll be right there!"
+                show michelle happy at center
+                m "So is this your car?"
+                p "Yeah."
+                "Michelle spends a couple minutes hijacking the car."
+                m "Okay it's done! Have a good day!"
+                p "You too!"
+                jump car_attempt
             "Don't call Michelle": 
                 n "You miss your second chance to assassinate the target."
-        jump resolve_ending
+                jump resolve_ending
+
+    label car_attempt: 
+        scene road
+        "You drive in your stolen car around town, looking for Andrew Pretzel."
+        show loan at center
+        "You spot him by the side of an empty road."
+        l "Huh?"
+        menu: 
+            "You press the gas pedal.": 
+                $ murder_method = "car"
+                "You have successfully murdered Andrew Pretzel. You run away and set the car on fire."
+                jump resolve_ending
+            "You press the brake pedal.": 
+                n "You miss your second chance to assassinate the target."
+                jump resolve_ending
+
 
     ### SWITCHBOARD ###
     label resolve_ending:
