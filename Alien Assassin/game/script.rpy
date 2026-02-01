@@ -17,6 +17,8 @@ define n = Character(None, what_italic=True)
 
 define p = Character("Protagonist", color="000000")
 
+define po = Character("Police Officer", color="0000aa")
+
 default points = 50
 
 default anna = False # if anna likes you 
@@ -24,6 +26,8 @@ default anna = False # if anna likes you
 default michelle = False 
 
 default sobechi = False
+
+default murder = False
 
 screen source_screen():
     frame:
@@ -210,16 +214,18 @@ label start:
         p "Could I use the bathroom first?"
         show anna normal
         a "Sure, it’s the room at the end of the hallway on the left. It’s right across from my dad’s room."
-
+    if fentanyl_flag == True: 
     # Planting the fent
-    menu:
-        "The weight of the fentanyl feels heavy in your pocket. What will you do?"
+        menu:
+            "The weight of the fentanyl feels heavy in your pocket. What will you do?"
 
-        "Go to the bathroom":
-            jump choice3_1
+            "Go to the bathroom":
+                jump choice3_1
 
-        "Go to the loan shark's room":
-            jump choice3_2
+            "Go to the loan shark's room":
+                jump choice3_2
+    else: 
+        jump choice3_1
 
     label choice3_1: 
         scene bathroom
@@ -236,6 +242,8 @@ label start:
         with fade
 
         "You slip into the loan shark’s room and find a pill bottle resting on a nightstand. You switch out the pills in the bottle for the fentanyl you got from Emily. You slip out of the bedroom before the loan shark can notice you, then join Anna and Sobechi."
+
+        $ murder = True
 
         scene living room
         with fade
@@ -336,22 +344,67 @@ label start:
 
         if points >= 90:
             n "You feel like you belong here." 
+            $ sobechi = True
+            $ anna = True
         else:
             n "You feel like you’re still pretending." 
 
         "You and Sobechi have a great time at Anna’s."
 
+        if murder == True and points >= 90: 
+            jump good_end
 
-    label end: 
-        scene football field
+    label fent_success: 
+        a "Apparently the sleeping pills he’s been taking all this time were Fentanyl and yesterday he overestimated his tolerance."
 
-        e "field"
+    label police: 
+        "You wake up in a police station, bound to a chair that’s facing the wall. A gruff voice behind you begins to speak."
+        po "We’ve heard that you’ve been acting… strangely. The planet is currently under an advisory watch for humans that may be trying to infiltrate our society and assassinate our citizens."
+        
+        menu: 
+            po "Answer this question for me: if you see a dog, what is the appropriate response?"
+            "You pet it.": 
+                "You hear a sound of disapproval from the officer."
+                po "Oh hell nah fam. You’re definitely a human. Sorry, but we’re locking you up."
+                jump bad_end
+            "You lick it.":
+                po "Oh okay nevermind you’re good. You’re free to go."
+                jump good_end
 
-        scene room
 
-        a "room"
+    label good_end: 
+        scene school corridor morning
+        show anna happy
+        show sobechi happy
+        a "Hey guys! Did you hear the news? My dad is dead!"
+        jump fent_success
+        s "And you’re happy about this?"
+        a "Of course! My Dad was a menace, both to me and to humans. The police came over earlier to investigate, but when I told them how weird he acts they knew it was an accidental death."
+        p "Wow. Well, I’m happy for you."
+        a "This is all thanks to you!"
+        p "IT IS?"
+        a "Yeah! If it wasn’t for you encouraging me, I wouldn’t have the bravery to do this."
+        n "Anna turns to Sobechi."
+        a "Will you marry me now that my homophobic father is out of the way?"
+        s "Anna… of course I will!"
+        scene chapel
 
-        # This ends the game.
- 
+        n "Thanks to your efforts, society is free from the exploitative loan shark, and Sobechi and Anna get married. You’re the person of honor at their wedding, and get a promotion at work. Congratulations!"
+        "{b} Good Ending. {b}"
+        jump credits
+
+    label bad_end: 
+        scene black
+        n "Unfortunately, you couldn’t accomplish your mission without being undiscovered. Disturbed by recent strange events, Anna decides she and Sobechi may be better off as friends for now. Sobechi is distraught. You’re fired from your job. Condolences!"
+        jump credits
+
+    label credits: 
+        "Made with Ren'Py"
+        "Made by Emily Lan (Lead Writer, Programmer), Michelle Jiang (Lead Programmer, Writer, Artist), Sobechi Igweatu (Lead Artist, Writer)"
+        "Background assets by Uncle Mugen's Free OELVN / Visual Novel Resources"
+        "Images by vectorpouch on {a=https://www.freepik.com/free-vector/banquet-hall-ballroom-castle-ready-wedding-ceremony-cartoon-vector-interior-decorated-flower_4015265.htm#fromView=search&page=1&position=3&uuid=081a65da-d025-43e8-a636-3bbbb4d7bd1d&query=Anime+chapel+wedding+setting}Freepik{/a}"
+        "ChatGPT was used to debug errors in this game."
+
+    # this ends the game
 
     return
