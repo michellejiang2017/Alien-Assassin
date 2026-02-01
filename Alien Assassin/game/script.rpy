@@ -19,6 +19,12 @@ define p = Character("Protagonist", color="000000")
 
 default points = 50
 
+default anna = False # if anna likes you 
+
+default michelle = False 
+
+default sobechi = False
+
 screen source_screen():
     frame:
         align(1.0, 0.0)
@@ -40,8 +46,7 @@ label start:
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
 
-    show sobechi happy: 
-        zoom 0.75
+    show sobechi happy
 
     # These display lines of dialogue.
 
@@ -69,6 +74,8 @@ label start:
     a "Hey, I don't think I've seen you around before, nice to meet you!"
     p "Yeah, nice to meet you!"
 
+
+    # Anna reputation
     menu: 
         "Anna wags her tongue at you."
 
@@ -114,11 +121,13 @@ label start:
     
     label choice1_1: 
         $ points += 10
+        $ anna = True
         n "They seem pleased. Points increase by 10%%."
         jump option2 # meet Emily
 
     label choice1_01: 
         $ points -= 10
+        $ anna = False
         n "They are displeased. Points decrease by 10%%."
         jump option1 # Sobechi
 
@@ -140,6 +149,8 @@ label start:
         e "Hey, do you want to fly?"
         p "Huh? Fly?"
         e "Yeah, fly. Like an angel."
+
+        # Buying fent
         menu:
             "Yes sure, give me some angel dust.":
                 e "Angel dust? That’ll cost a pretty penny."
@@ -176,7 +187,7 @@ label start:
 
     #DAY 2
     label choice2_done:
-        scene room
+        scene living room
         "You arrive at the Pretzel house. You knock on the door. It swings open to reveal…"
         show loan
         l "Oh. You must be Anna’s acquaintances. She’s been expecting you. Come in."
@@ -193,6 +204,7 @@ label start:
         show anna normal
         a "Sure, it’s the room at the end of the hallway on the left. It’s right across from my dad’s room."
 
+    # Planting the fent
     menu:
         "The weight of the fentanyl feels heavy in your pocket. What will you do?"
 
@@ -201,6 +213,33 @@ label start:
 
         "Go to the loan shark's room":
             jump choice3_2
+
+    label choice3_1: 
+        scene bathroom
+
+        "You go to the bathroom and relieve yourself. You’re too scared to confront the loan shark, but you leave a present for him in the toilet before joining Anna and Sobechi."
+
+        n "You missed your chance to assassinate the loan shark."
+
+        jump choice3_done
+
+    label choice3_2: 
+        scene room night
+
+        "You slip into the loan shark’s room and find a pill bottle resting on a nightstand. You switch out the pills in the bottle for the fentanyl you got from Emily. You slip out of the bedroom before the loan shark can notice you, then join Anna and Sobechi."
+
+        scene living room
+
+        "As you head upstairs, you feel a little pee dribble down your leg and ignore it. Your bladder is screaming, but your worries dissipate when you hear sounds from the loan shark’s bedroom: a yawn and the shake of the pill bottle."
+        
+        jump choice3_done
+
+    # SLEEPOVER
+
+    label choice3_done: 
+        scene room
+        
+
 
     label end: 
         scene football field
