@@ -40,7 +40,8 @@ label start:
 
     show screen source_screen()
 
-    scene school corridor morning
+    scene school corridor morning 
+    with dissolve
 
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
@@ -58,10 +59,12 @@ label start:
 
     n "Here is information about the target. Andrew Pretzel is a loan shark who is exploiting your planet with predatory loans. He has a daughter: Anna Pretzel."
 
-    n "Your goal is to get away with murder. In order to do this, you must befriend the people in the universe and help them obtain their goals. If you do this, you will gain reputation (in the top right corner)."
+    n "Your goal is to get away with murder. In order to do this, you must befriend the people in the universe and blend in with their culture. If you do this, you will gain reputation (in the top right corner)."
 
     # DAY 1
     scene school corridor morning
+    with fade
+
     show sobechi normal
     s "Hey, how are you feeling about the first day of classes?"
     show sobechi happy
@@ -69,7 +72,8 @@ label start:
     p "I'm excited for my first class! It's called Money and Banking, it sounds like it's going to be a lot of fun!"
     s "Wow, look at the time, we should get going to class."
 
-    scene classroom
+    scene classroom 
+    with fade
     show anna happy
     a "Hey, I don't think I've seen you around before, nice to meet you!"
     p "Yeah, nice to meet you!"
@@ -116,23 +120,24 @@ label start:
 
     label choice1_0: 
         $ points += 0
-        n "Your points remain the same."
+        n "Your reputation remains the same."
         jump option1 # Sobechi
     
     label choice1_1: 
         $ points += 10
         $ anna = True
-        n "They seem pleased. Points increase by 10%%."
+        n "They seem pleased. Reputation increases by 10%%."
         jump option2 # meet Emily
 
     label choice1_01: 
         $ points -= 10
         $ anna = False
-        n "They are displeased. Points decrease by 10%%."
+        n "They are displeased. Reputation decreases by 10%%."
         jump option1 # Sobechi
 
     label option1: 
         scene school corridor morning
+        with fade
         show sobechi happy
         s 'Good news! I got a text from Anna and she invited us to study at her house since we share classes together!'
         p 'Oh that’s great!'
@@ -144,6 +149,7 @@ label start:
 
     label option2: 
         scene football field
+        with fade
         "You run into Emily, the local drug dealer, by the football fields."
         show emily
         e "Hey, do you want to fly?"
@@ -188,6 +194,7 @@ label start:
     #DAY 2
     label choice2_done:
         scene living room
+        with fade
         "You arrive at the Pretzel house. You knock on the door. It swings open to reveal…"
         show loan
         l "Oh. You must be Anna’s acquaintances. She’s been expecting you. Come in."
@@ -216,6 +223,7 @@ label start:
 
     label choice3_1: 
         scene bathroom
+        with fade
 
         "You go to the bathroom and relieve yourself. You’re too scared to confront the loan shark, but you leave a present for him in the toilet before joining Anna and Sobechi."
 
@@ -225,10 +233,12 @@ label start:
 
     label choice3_2: 
         scene room night
+        with fade
 
         "You slip into the loan shark’s room and find a pill bottle resting on a nightstand. You switch out the pills in the bottle for the fentanyl you got from Emily. You slip out of the bedroom before the loan shark can notice you, then join Anna and Sobechi."
 
         scene living room
+        with fade
 
         "As you head upstairs, you feel a little pee dribble down your leg and ignore it. Your bladder is screaming, but your worries dissipate when you hear sounds from the loan shark’s bedroom: a yawn and the shake of the pill bottle."
         
@@ -238,7 +248,98 @@ label start:
 
     label choice3_done: 
         scene room
-        
+        with fade
+
+        show anna normal
+        show sobechi normal
+
+        "Empty snack wrappers are scattered everywhere. Anna licks salt from her fingers."
+        a "Ugh, I’m still hungry." 
+        s "Same. Cafeteria food never fills you up unless you do it right." 
+
+        menu:
+            "They both glance at you, waiting."
+            "Yeah, you really have to lick the plate clean":
+                show sobechi happy
+                show anna happy
+                a "Exactly." 
+                s "See? They get it." 
+                n "They seem pleased. Reputation increases by 10%%."
+                $ points += 10
+            "Guess you just eat more next time":
+                show sobechi normal
+                show anna normal
+                a "…That’s not what I meant." 
+                n "Reputation remains the same."
+                $ points += 0 
+            "I don’t really think about it":
+                show sobechi sad
+                show anna sad
+                n "That answer feels wrong." 
+                n "They seem displeased. Reputation decreases by 10%%."
+                $ points -= 10
+
+        s "My cousin skipped that once and my aunt almost disowned him." 
+        a "That’s basic manners." 
+
+        "Anna sticks her tongue out playfully, wagging it side to side."
+
+        menu: 
+            s "Are you going to save your food for later?"
+            "Nah, leaving food is rude":
+                show sobechi happy
+                show anna happy
+                a "You're right."
+                s "Glad you said that."
+                n "They seem pleased. Reputation increases by 10%%."
+                $ points += 10
+
+            "I’ll throw it out":
+                show sobechi sad
+                show anna sad
+                a "Wow."
+                s "That’s… bad."
+                n "They seem displeased. Reputation decreases by 10%%."
+                $ points -= 10
+
+            "I’ll box it up and forget about it":
+                show sobechi normal
+                show anna normal
+                s "That still counts as waste."
+                n "Reputation remains the same."
+                $ points += 0 
+
+        s "Anna’s dad once yelled at a server for not finishing his food." 
+
+        menu:
+            a "He hates waste." 
+            "Yeah, people like that care more about control than food":
+                show sobechi happy
+                show anna happy
+                a "…You noticed that too." 
+                n "They seem pleased. Reputation increases by 10%%."
+                $ points += 10
+            "He just sounds strict":
+                show sobechi sad
+                show anna sad
+                a "You could say that." 
+                n "They seem displeased. Reputation decreases by 10%%."
+                $ points -= 10
+            "I don’t know him":
+                show sobechi normal
+                show anna normal
+                n "They both look unconvinced." 
+                n "Reputation remains the same."
+                $ points -= 0
+
+        "The conversation drifts after that."
+
+        if points >= 90:
+            n "You feel like you belong here." 
+        else:
+            n "You feel like you’re still pretending." 
+
+        "You and Sobechi have a great time at Anna’s."
 
 
     label end: 
