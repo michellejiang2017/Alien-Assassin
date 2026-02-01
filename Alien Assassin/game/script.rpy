@@ -497,7 +497,6 @@ label start:
         "You feel strong arms grab you. A hard force hits the back of your head. Everything goes black."
         hide sobechi sad
         hide anna sad
-        jump police
 
         scene black 
         "You wake up in a police station, bound to a chair that’s facing the wall. A gruff voice behind you begins to speak."
