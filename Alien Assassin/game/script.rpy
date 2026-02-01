@@ -548,6 +548,8 @@ label start:
         "Made by Emily Lan (Lead Writer, Programmer), Michelle Jiang (Lead Programmer, Writer, Artist), Sobechi Igweatu (Lead Artist, Writer)"
         "Background assets by Uncle Mugen's Free OELVN / Visual Novel Resources"
         "Images by vectorpouch on {a=https://www.freepik.com/free-vector/banquet-hall-ballroom-castle-ready-wedding-ceremony-cartoon-vector-interior-decorated-flower_4015265.htm#fromView=search&page=1&position=3&uuid=081a65da-d025-43e8-a636-3bbbb4d7bd1d&query=Anime+chapel+wedding+setting}Freepik{/a}"
+        "Designed by vectorpouch / Freepik"
+        "Image by upklyak on {a=https://www.freepik.com/free-vector/empty-dark-urban-backstreet-garbage-containers_34084557.htm#fromView=search&page=1&position=1&uuid=a725eb09-1a5d-48b5-851b-8b259778320e&query=empty+neighbourhood+road+anime+style}Freepik{/a}"
         "ChatGPT was used to debug errors in this game."
 
     # this ends the game
