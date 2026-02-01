@@ -74,14 +74,23 @@ label start:
 
         "Make a face":
             a "Oh..."
-            "Anna looks at you weirdly."
+            p "Did I do something wrong?"
+            a "No…"
             jump choice1_0 # the number of points gained
             
 
         "Wag back": 
             p "You're so pretty, we should study together for this class sometime!"
-            a "I'd be down."
-            "You have a great conversation where Anna tells you her dad takes 10 sleeping pills every night and she invites you and your friend Sobechi to a sleepover."
+            a "I'd be down. Hey, aren't you friends with Sobechi? Let's all study together."
+            p 'Yeah of course! Oh, why’d you choose this class?' 
+            a 'Oh my dad is in finance so he wants me to learn about loans. Ugh.'
+            p 'Do you not like your dad?'
+            a 'Yeah he wants me to take over the family business.'
+            p 'Oh wow. That seems stressful.'
+            a 'Yeah {b}he’s taking 10 sleeping pills every night{b}.'
+            p 'Oh no, is he okay?'
+            a 'Yeah-–actually you should meet him! Let’s study together at my house! Bring Sobechi!'
+
             jump choice1_1
             
 
@@ -102,27 +111,68 @@ label start:
     
     label choice1_1: 
         $ points += 10
-        n "They seem pleased. Points increase by 10%."
+        n "They seem pleased. Points increase by 10%%."
         jump option2 # meet Emily
 
     label choice1_01: 
         $ points -= 10
-        n "They are displeased. Points decrease by 10%."
+        n "They are displeased. Points decrease by 10%%."
         jump option1 # Sobechi
 
     label option1: 
-        "You're in the hallway and you talk to Sobechi where Sobechi tells you she heard from the rumour mill that Anna's dad takes sleeping pills. You encourage Sobechi to ask Anna to hang out because you know she likes her."
-        
-        scene dorm
-        "You receive a text from Sobechi saying that Anna invited you both to her house for a sleepover!"
-        jump end
+        scene school corridor morning
+        s 'Good news! I got a text from Anna and she invited us to study at her house since we share classes together!'
+        p 'Oh that’s great!'
+        n 'You can take the opportunity to get closer to her father.'
+        s 'Oh but I’d be careful with her dad-–I heard {b}he takes 10 sleeping pills every night{b} because he’s so stressed.'
+        jump option2
 
 
     label option2: 
         scene football field
-        "You have an idea: you can swap the sleeping pills and poison her dad. You run into Emily, the local drug dealer on campus. She asks in code words if you want anything."
+        "You run into Emily, the local drug dealer, by the football fields."
+        e "Hey, do you want to fly?"
+        p "Huh? Fly?"
+        e "Yeah, fly. Like an angel."
+        menu:
+            "Yes sure, give me some angel dust.":
+                e "Angel dust? That’ll cost a pretty penny."
+                p "I’ve got money."
+                e "Okay moneybags, here’s your angel dust."
+
+                jump choice2_1
+
+            "Yes, give me fentanyl.":
+                e "Fentanyl? I don’t know what you’re talking about."
+                p "Like the white stuff? Don’t you have that?"
+                e "Now you’re just giving me attitude. I’m only giving you this because you’re a regular."
+
+                jump choice2_2
+
+            "No, I don't want anything.":
+                e "Okay. Goodbye."
+                jump choice2_3
+
+    label choice2_1:
+        $ fentanyl_flag = True
+        n "You gained fentanyl."
+        jump choice2_done
+    
+    label choice2_2:
+        $ fentanyl_flag = True
+        n "You gained fentanyl."
+        jump choice2_done
+    
+    label choice2_3:
+        $ fentanyl_flag = False
+        n "You don't buy anything from the drug dealer."
+        jump choice2_done
+
+    label choice2_done:
+        s 'Hey, there’s a club fair happening! Let’s go!'
+        scene classroom
+
         jump end
-        
 
     label end: 
         scene football field
