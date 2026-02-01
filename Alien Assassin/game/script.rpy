@@ -375,15 +375,22 @@ label start:
     label choice4_01:
         s "Hey! I got Michelle's number. She said she can fix people's cars!"
         p "Fix people's cars? What does that mean?"
-        s "Okay don't tell anyone but Michelle helps people {b} steal cars by breaking into them...{b}"
-        n "You can steal a car to hit the target."
+        s "Oh like she helps people {b} break into people's cars if they get locked out of them {b}"
+        n "You can break into a car and steal it to hit the target."
         p "Oh, could I get her number then?"
         s "Here, I'll add it to your phone."
         jump choice4_1
 
     ### CAR ATTEMPT ###
     label choice4_1: 
-        
+        scene parking lot 
+        "Now's your chance to steal a car and hit the target."
+        menu: 
+            "Call Michelle": 
+                m "Hi? What's up?"
+                p "Hi, I got locked "
+            "Don't call Michelle": 
+                n "You miss your second chance to assassinate the target."
         jump resolve_ending
 
     ### SWITCHBOARD ###
