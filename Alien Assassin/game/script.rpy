@@ -49,30 +49,31 @@ label start:
 
     n "Here is information about who you have to be. You are a university student. You are best friends with Sobechi who has a massive crush on Anna Pretzel."
 
-    n "Here is information about the planet. On this planet, the people have very long tongues. As such, people wag their tongues in greeting. They also lick everything."
+    n "Here is information about the planet. On this planet, the people have very long tongues. As such, people wag their tongues in greeting. They also find it rude when people don't lick their plates clean."
 
     n "Here is information about the target. Andrew Pretzel is a loan shark who is exploiting your planet with predatory loans. He has a daughter: Anna Pretzel."
 
     n "Your goal is to get away with murder. In order to do this, you must befriend the people in the universe and help them obtain their goals. If you do this, you will gain reputation (in the top right corner)."
 
+    # DAY 1
+    scene school corridor morning
+    show sobechi normal
     s "Hey, how are you feeling about the first day of classes?"
-
+    show sobechi happy
     "Sobechi wags her tongue in greeting."
-
     p "I'm excited for my first class! It's called Money and Banking, it sounds like it's going to be a lot of fun!"
-
     s "Wow, look at the time, we should get going to class."
 
     scene classroom
-
+    show anna happy
     a "Hey, I don't think I've seen you around before, nice to meet you!"
-
     p "Yeah, nice to meet you!"
 
     menu: 
         "Anna wags her tongue at you."
 
         "Make a face":
+            show anna normal
             a "Oh..."
             p "Did I do something wrong?"
             a "No…"
@@ -83,18 +84,21 @@ label start:
             p "You're so pretty, we should study together for this class sometime!"
             a "I'd be down. Hey, aren't you friends with Sobechi? Let's all study together."
             p 'Yeah of course! Oh, why’d you choose this class?' 
+            show anna normal
             a 'Oh my dad is in finance so he wants me to learn about loans. Ugh.'
             p 'Do you not like your dad?'
             a 'Yeah he wants me to take over the family business.'
             p 'Oh wow. That seems stressful.'
             a 'Yeah {b}he’s taking 10 sleeping pills every night{b}.'
             p 'Oh no, is he okay?'
+            show anna happy
             a 'Yeah-–actually you should meet him! Let’s study together at my house! Bring Sobechi!'
 
             jump choice1_1
             
 
         "Go for a handshake": 
+            show anna normal
             a "Woah, I don't know you like that."
             p "My bad, it was a reflex--I mean…"
             a "So you shake hands with everyone?"
@@ -107,7 +111,6 @@ label start:
         $ points += 0
         n "Your points remain the same."
         jump option1 # Sobechi
-
     
     label choice1_1: 
         $ points += 10
@@ -121,9 +124,11 @@ label start:
 
     label option1: 
         scene school corridor morning
+        show sobechi happy
         s 'Good news! I got a text from Anna and she invited us to study at her house since we share classes together!'
         p 'Oh that’s great!'
         n 'You can take the opportunity to get closer to her father.'
+        show sobechi normal
         s 'Oh but I’d be careful with her dad-–I heard {b}he takes 10 sleeping pills every night{b} because he’s so stressed.'
         jump option2
 
@@ -131,6 +136,7 @@ label start:
     label option2: 
         scene football field
         "You run into Emily, the local drug dealer, by the football fields."
+        show emily
         e "Hey, do you want to fly?"
         p "Huh? Fly?"
         e "Yeah, fly. Like an angel."
@@ -168,11 +174,33 @@ label start:
         n "You don't buy anything from the drug dealer."
         jump choice2_done
 
+    #DAY 2
     label choice2_done:
-        s 'Hey, there’s a club fair happening! Let’s go!'
-        scene classroom
+        scene room
+        "You arrive at the Pretzel house. You knock on the door. It swings open to reveal…"
+        show loan
+        l "Oh. You must be Anna’s acquaintances. She’s been expecting you. Come in."
+        hide loan
+        show anna happy
+        a "Thank you guys for coming! Ignore my father, he’s such a grump. Let’s study upstairs in my room!"
+        hide anna
+        show loan
+        l "I’ll be going to bed soon. Try not to be loud, I’ll need my rest if I’m going to squeeze every last cent out of those filthy humans at work."
+        hide loan
+        show anna sad
+        a "Dad! …I’m sorry about him. Let’s… let’s just go to my room now. *Sigh*"
+        p "Could I use the bathroom first?"
+        show anna normal
+        a "Sure, it’s the room at the end of the hallway on the left. It’s right across from my dad’s room."
 
-        jump end
+    menu:
+        "The weight of the fentanyl feels heavy in your pocket. What will you do?"
+
+        "Go to the bathroom":
+            jump choice3_1
+
+        "Go to the loan shark's room":
+            jump choice3_2
 
     label end: 
         scene football field
