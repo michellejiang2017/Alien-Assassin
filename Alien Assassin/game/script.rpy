@@ -421,6 +421,7 @@ label start:
 
     label gun_attempt:
         scene college campus
+        show sobechi normal
         s "I have a favor to ask of you, but you have to promise not to tell anyone."
         p "I promise I won’t tell a soul, what is it?"
         s "I know that guns aren’t allowed on this campus, but the thing is…*reveals firearm* I think people are getting suspicious and I don’t want it to be in my room in case they do a surprise inspection."
@@ -428,6 +429,7 @@ label start:
         s "As my best friend, I know I can trust you. Will you hold onto the gun for me?"
         menu: 
             "Of course, I’ll make sure it isn’t found.":
+                show sobechi happy
                 s "I knew you would have my back."
                 p "Always."
                 n "Time is ticking and your mission still has not been completed. Drastic measures have to be taken. No more beating around the bush, it's time to go straight to the target."
@@ -442,6 +444,7 @@ label start:
                     "Ask how he's doing and offer him a hug":
                         jump resolve_ending
             "I’m not sure that’s the best idea…":
+                show sobechi sad
                 s "I guess our friendship isn’t as strong as I thought."
                 p "That’s not true."
                 s "That’s what it seems like right now."
@@ -494,6 +497,7 @@ label start:
         "You feel strong arms grab you. A hard force hits the back of your head. Everything goes black."
         hide sobechi sad
         hide anna sad
+        jump police
 
         scene black 
         "You wake up in a police station, bound to a chair that’s facing the wall. A gruff voice behind you begins to speak."
@@ -545,6 +549,7 @@ label start:
     label bad_end: 
         scene black
         n "Unfortunately, you couldn’t accomplish your mission without being discovered. Disturbed by recent strange events, Anna decides she and Sobechi may be better off as friends for now. Sobechi is distraught. You’re fired from your job. Condolences!"
+        "{b} Good Ending. {b}"
         jump credits
 
     label credits: 
@@ -552,8 +557,6 @@ label start:
         "Made by Emily Lan (Lead Writer, Programmer), Michelle Jiang (Lead Programmer, Writer, Artist), Sobechi Igweatu (Lead Artist, Writer)"
         "Background assets by Uncle Mugen's Free OELVN / Visual Novel Resources"
         "Images by vectorpouch on {a=https://www.freepik.com/free-vector/banquet-hall-ballroom-castle-ready-wedding-ceremony-cartoon-vector-interior-decorated-flower_4015265.htm#fromView=search&page=1&position=3&uuid=081a65da-d025-43e8-a636-3bbbb4d7bd1d&query=Anime+chapel+wedding+setting}Freepik{/a}"
-        "Designed by vectorpouch / Freepik"
-        "Image by upklyak on {a=https://www.freepik.com/free-vector/empty-dark-urban-backstreet-garbage-containers_34084557.htm#fromView=search&page=1&position=1&uuid=a725eb09-1a5d-48b5-851b-8b259778320e&query=empty+neighbourhood+road+anime+style}Freepik{/a}"
         "ChatGPT was used to debug errors in this game."
 
     # this ends the game
