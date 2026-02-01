@@ -430,12 +430,17 @@ label start:
             "Of course, I’ll make sure it isn’t found.":
                 s "I knew you would have my back."
                 p "Always."
+                n "Time is ticking and your mission still has not been completed. Drastic measures have to be taken. No more beating around the bush, it's time to go straight to the target."
+                n "You arrive at the Pretzel residence."
                 scene front door
-                
                 show loan
-
-                $ murder_method = "gun"  
-                jump choicegun_1
+                l "Oh. Are you one of Anna's little friends?"
+                menu: 
+                    "Shoot him in the face with your newly acquired gun":
+                        $ murder_method = "gun"
+                        jump resolve_ending
+                    "Ask how he's doing and offer him a hug":
+                        jump resolve_ending
             "I’m not sure that’s the best idea…":
                 s "I guess our friendship isn’t as strong as I thought."
                 p "That’s not true."
