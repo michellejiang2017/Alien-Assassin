@@ -548,7 +548,7 @@ label start:
     label bad_end: 
         scene black
         n "Unfortunately, you couldn’t accomplish your mission without being discovered. Disturbed by recent strange events, Anna decides she and Sobechi may be better off as friends for now. Sobechi is distraught. You’re fired from your job. Condolences!"
-        "{b} Good Ending. {b}"
+        "{b} Bad Ending. {b}"
         jump credits
 
     label credits: 
